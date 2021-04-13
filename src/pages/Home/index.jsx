@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
-import { getCredentials, isAuthenticated } from '../../services/auth'
+import { getCredentials } from '../../services/auth'
 import { styles } from './styles'
 
 const Home = ({ navigation }) => {
