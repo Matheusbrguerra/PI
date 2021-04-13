@@ -3,6 +3,7 @@
     "name": "pi",
     "slug": "pi",
     "version": "1.0.0",
+    "entryPoint": "./src/index.js",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
