@@ -10,34 +10,29 @@ const styles = StyleSheet.create({
     },
     input: {
         width: 300,
-        margin: 5,
+        margin: 15,
         height: 40,
         borderColor: '#FF0000',
         borderWidth: 1,
-        borderRadius: 15,
+        borderRadius: 10
     },
     submitButton: {
+        marginTop: 37,
         width: 300,
         margin: 15,
         height: 40,
-        borderColor: '#FFA500',
-        backgroundColor: '#FFA500',
+        borderColor: '#ffffff',
+        backgroundColor: '#ffffff',
         borderWidth: 1,
-        borderRadius: 15,
+        borderRadius: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     submitButtonText: {
-        color: '#FF0000',
-        fontWeight: 'bold'
+        color: 'red'
     },
-    submitBack: {
-        color: '#FF0000',
-        fontWeight: 'bold'
-    },
-    imgStyle: {
-        width: 250,
-        height: 250,
+    checkbox: {
+        alignSelf: "center",
     },
 })
 

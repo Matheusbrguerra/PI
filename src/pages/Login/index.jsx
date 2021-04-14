@@ -23,6 +23,14 @@ const Login = ({ navigation }) => {
         }
     }
 
+    const goToSignUp = async () => {
+        try {
+            navigation.navigate('SignUp')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <View style={styles.container}>
             <Image style={styles.imgStyle} source={{uri:'https://img.icons8.com/emoji/452/hamburger-emoji.png'}} />
@@ -36,7 +44,7 @@ const Login = ({ navigation }) => {
                     Entrar
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => goToSignUp()}>
                 <Text style={styles.submitButtonTextSignUp}>
                     Cadastrar-se
                 </Text>

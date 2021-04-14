@@ -1,35 +1,64 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useEffect } from 'react/cjs/react.development';
 import { getCredentials } from '../../services/auth'
 import { styles } from './styles'
+import AppLoading from 'expo-app-loading';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import Modal from '../../components/Modal'
 
 const Home = ({ navigation }) => {
     const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [bonus, setBonus] = useState(0)
 
-    const submitLogin = async () => {
+    useEffect(() => {
+        getUsername()
+        setBonus(2)
+    }, [username])
+
+    const getUsername = async () => {
         try {
             const cred = await getCredentials()
 
-            if (cred.username.length > 0 && cred.password.length > 0) {
-                navigation.navigate('Login')
-            }
-
+            setUsername(cred.username)
         } catch (error) {
             console.log(error);
         }
     }
 
+    const goToMenu = async () => {
+        try {
+            navigation.navigate('Menu')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    let [fontsLoaded] = useFonts({
+        Inter_900Black,
+    });
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    }
+
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} onChange={(e) => setUsername(e.nativeEvent.text)} placeholder=" Digite seu e-mail" />
-            <TextInput style={styles.input} onChange={(e) => setPassword(e.nativeEvent.text)} placeholder=" Digite sua senha" secureTextEntry />
+            <Text style={{ fontSize: 20, fontFamily: 'Inter_900Black', color: '#FF0000' }}>{username}</Text>
+            <Text style={{ fontSize: 20, fontFamily: 'Inter_900Black', color: '#FF0000' }}>Bônus: {bonus}</Text>
+
             <TouchableOpacity
                 style={styles.submitButton}
-                onPress={() => submitLogin()}>
+            >
                 <Text style={styles.submitButtonText}>
-                    Log-in Home
+                    Alterar Perfil
                 </Text>
+            </TouchableOpacity>
+            <Modal buttonName="Cardápio" />
+            <TouchableOpacity
+                style={styles.submitButton}
+            >
+                <Text style={styles.submitButtonText}>Meus pedidos</Text>
             </TouchableOpacity>
         </View>
     );

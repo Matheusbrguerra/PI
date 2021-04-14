@@ -1,48 +1,106 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
-import { login, getCredentials } from '../../services/auth'
-import { Asset } from 'expo-asset';
+import React, { useState } from 'react';
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import { styles } from './styles'
+import AppLoading from 'expo-app-loading';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 
-const Login = ({ navigation }) => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+const SignUp = ({ navigation }) => {
+    const [name, setName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
+    const [city, setCity] = useState('')
+    const [district, setDistrict] = useState('')
+    const [street, setStreet] = useState('')
+    const [number, setNumber] = useState('')
+    const [apto, setApto] = useState('')
 
-    const submitLogin = async () => {
+    const submitSignUp = async () => {
         try {
-            await login(username, password)
+            console.log({
+                name,
+                phone,
+                email,
+                city,
+                district,
+                street,
+                number,
+                apto
+            });
 
-            const cred = await getCredentials()
-
-            if (cred.username.length > 0 && cred.password.length > 0) {
-                navigation.navigate('Home')
-            }
-
+            navigation.navigate('Login')
         } catch (error) {
             console.log(error)
         }
     }
 
+    const goBackLogin = async () => {
+        try {
+            navigation.navigate('Login')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    let [fontsLoaded] = useFonts({
+        Inter_900Black,
+    });
+
+    if (!fontsLoaded) {
+        return <AppLoading />;
+    }
+
     return (
         <View style={styles.container}>
-            <Image style={styles.imgStyle} source={{uri:'https://img.icons8.com/emoji/452/hamburger-emoji.png'}} />
-            <TextInput style={styles.input} onChange={(e) => setUsername(e.nativeEvent.text)} placeholder=" E-mail" />
-            <TextInput style={styles.input} onChange={(e) => setPassword(e.nativeEvent.text)} placeholder=" Senha" secureTextEntry />
-            <TouchableOpacity
-                style={styles.submitButton}
-                onPress={() => submitLogin()}
-            >
-                <Text style={styles.submitButtonText}>
-                    Entrar
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Text style={styles.submitButtonTextSignUp}>
-                    Cadastrar-se
-                </Text>
-            </TouchableOpacity>
+            <Text style={{ fontSize: 40, fontFamily: 'Inter_900Black', color: '#FF0000' }}>Vamos começar !!</Text>
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                Preencha os campos abaixo para completar o cadastro.
+            </Text>
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                Nome
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setName(e.nativeEvent.text)} placeholder=" Insira seu nome completo" />
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                Telefone
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setPhone(e.nativeEvent.text)} placeholder=" Insira seu número de telefone" />
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                E-mail
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setEmail(e.nativeEvent.text)} placeholder=" Insira seu melhor e-mail" />
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                Cidade
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setCity(e.nativeEvent.text)} placeholder=" Cidade" />
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                Bairro
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setDistrict(e.nativeEvent.text)} placeholder=" Bairro" />
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                Rua
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setStreet(e.nativeEvent.text)} placeholder=" Rua" />
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                Número
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setNumber(e.nativeEvent.text)} placeholder=" Insira número da sua casa" />
+            <Text style={{ fontSize: 13, fontFamily: 'Inter_900Black', color: '#FF0000' }}>
+                APTO
+            </Text>
+            <TextInput style={styles.input} onChange={(e) => setApto(e.nativeEvent.text)} placeholder=" Insira número do seu APTO" />
+            <View style={{ flexDirection: 'row', padding: 10 }}>
+                <TouchableOpacity onPress={() => goBackLogin()}>
+                    <Text style={styles.submitBack}>
+                        {'<'}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => submitSignUp()}>
+                    <Text style={styles.submitBack}>
+                        Cadastrar
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
 
-export default Login;
+export default SignUp;
