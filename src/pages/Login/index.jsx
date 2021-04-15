@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
 import { login, getCredentials } from '../../services/auth'
-import { Asset } from 'expo-asset';
 import { styles } from './styles'
 
 const Login = ({ navigation }) => {

@@ -1,49 +1,40 @@
-import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, CheckBox } from 'react-native';
-import { login, getCredentials } from '../../services/auth'
-import { Asset } from 'expo-asset';
+import React, { useState, useEffect } from 'react';
+import { View, Modal, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from './styles'
-import { useEffect } from 'react/cjs/react.development';
+import { CheckBox } from 'react-native-elements'
+import sanduiches from '../../utils/lanches'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default function ({buttonName}) {
+export default function ({ buttonName }) {
     const [visible, setVisible] = useState(false)
     const [products, setProducts] = useState(sanduiches)
-    const sanduiches = [
-        {
-            id: 1,
-            name: 'Hamburguer 1',
-            price: 9.90
-        },
-        {
-            id: 2,
-            name: 'Hamburguer 2',
-            price: 12.90
-        },
-        {
-            id: 3,
-            name: 'Hamburguer 3',
-            price: 13.90
-        },
-        {
-            id: 4,
-            name: 'Hamburguer 4',
-            price: 14.90
-        },
-        {
-            id: 5,
-            name: 'Hamburguer 5',
-            price: 15.90
-        },
-        {
-            id: 6,
-            name: 'Hamburguer 6',
-            price: 16.90
+    const [orderTotal, setOrderTotal] = useState(0)
+    const [orderList, setOrderList] = useState([])
+
+    const setCheckbox = (id) => {
+        const index = products.findIndex(sand => sand.id === id)
+        products[index].checked = !products[index].checked
+        setProducts([...products])
+    }
+
+    const saveOrderList = async () => {
+        try {
+            const dados = JSON.stringify({ orderList, orderTotal })
+            await AsyncStorage.setItem('pedido', dados)
+            setVisible(false)
+        } catch (error) {
+            return console.log(error);
         }
-    ]
-    
-    
-    useEffect(()=>{
-    })
+    }
+
+    useEffect(() => {
+        const cestaProdutos = products.filter(product => product.checked === true)
+        const orderTotal = cestaProdutos.reduce((pv, cv) => { return pv + cv.price }, 0)
+        setOrderTotal(orderTotal)
+        setOrderList(cestaProdutos)
+    }, [products, orderTotal])
+
+
 
     return (
         <View>
@@ -52,14 +43,21 @@ export default function ({buttonName}) {
                 transparent={false}
                 visible={visible}
             >
-                <View style={styles.container}>
-                    {sanduiches.map(sand => 
-                        <>
-                            <Text>{sand.name}</Text>
-                            <CheckBox key={sand.id}/>
-                            <Text>R${sand.price.toFixed(2).toString().replace('.',',')}</Text>
-                        </>
-                    )}
+                <Text style={styles.submitButtonText}>Selecione seu pedido :</Text>
+                <ScrollView style={styles.container}>
+                    <>
+                        {products.map(sand =>
+                            <CheckBox
+                                key={sand.id}
+                                onPress={() => setCheckbox(sand.id)}
+                                checked={sand.checked}
+                                title={sand.name + ' - ' + sand.price.toFixed(2).toString().replace('.', ',')}
+                            />
+                        )}
+                    </>
+                </ScrollView>
+                <View style={styles.container2}>
+                    <Text style={styles.submitButtonText}>Total: R${orderTotal.toFixed(2).toString().replace('.', ',')}</Text>
                     <TouchableOpacity
                         style={styles.submitButton}
                         onPress={() => setVisible(false)}
@@ -70,7 +68,7 @@ export default function ({buttonName}) {
                         style={styles.submitButton}
                         onPress={() => setVisible(false)}
                     >
-                        <Text style={styles.submitButtonText}>Finalizar Pedido</Text>
+                        <Text onPress={() => saveOrderList()} style={styles.submitButtonText}>Finalizar Pedido</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>

@@ -2,15 +2,10 @@ import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
     container: {
-        overflow:'scroll',
         paddingTop: 23,
         flex: 1,
         backgroundColor: '#ffff00',
-    },
-    container2: {
-        flex: 1,
-        backgroundColor: '#ffff00',
-        alignItems: 'center',
+        alignItems:'center',
         justifyContent: 'center'
     },
     input: {
@@ -22,7 +17,7 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     submitButton: {
-        marginTop: 37,
+        marginTop:37,
         width: 300,
         margin: 15,
         height: 40,
@@ -34,13 +29,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     submitButtonText: {
+        paddingTop:10,
+        color: 'red'
+    },
+    text: {
+        paddingTop:10,
         color: 'red',
-        backgroundColor:'#ffff00',
-        textAlign:'center'
-    },
-    checkbox: {
-        alignSelf: "center",
-    },
+        fontSize: 20
+    }
 })
 
 export { styles }

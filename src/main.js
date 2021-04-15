@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import Menu from './pages/Menu'
+import Order from './pages/Order'
 
 const Stack = createStackNavigator()
 
@@ -42,6 +43,13 @@ export default function App() {
         <Stack.Screen
           name="Menu"
           component={Menu}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={Order}
           options={{
             headerShown: false
           }}

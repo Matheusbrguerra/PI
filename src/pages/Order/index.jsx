@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useEffect } from 'react/cjs/react.development';
 import { getCredentials } from '../../services/auth'
 import { styles } from './styles'
 import AppLoading from 'expo-app-loading';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
-import Modal from '../../components/Modal'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Home = ({ navigation }) => {
+const Order = ({ navigation }) => {
     const [username, setUsername] = useState('')
     const [bonus, setBonus] = useState(0)
+    const [orderList,setOrderList] = useState([])
+    const [orderTotal,setOrderTotal] = useState(0)
 
     useEffect(() => {
+        loadOrder()
         getUsername()
         setBonus(2)
     }, [username])
+
+    const loadOrder = async () => {
+        const pedido = JSON.parse(await AsyncStorage.getItem('pedido'))
+        setOrderList(pedido.orderList)
+        setOrderTotal(pedido.orderTotal)
+    }
 
     const getUsername = async () => {
         try {
@@ -26,9 +35,9 @@ const Home = ({ navigation }) => {
         }
     }
 
-    const goToOrder = async () => {
+    const goBackHome = async () => {
         try {
-            navigation.navigate('Order')
+            navigation.navigate('Home')
         } catch (error) {
             console.log(error)
         }
@@ -46,22 +55,22 @@ const Home = ({ navigation }) => {
         <View style={styles.container}>
             <Text style={{ fontSize: 20, fontFamily: 'Inter_900Black', color: '#FF0000' }}>{username}</Text>
             <Text style={{ fontSize: 20, fontFamily: 'Inter_900Black', color: '#FF0000' }}>Bônus: {bonus}</Text>
-
-            <TouchableOpacity
-                style={styles.submitButton}
-            >
-                <Text style={styles.submitButtonText}>
-                    Alterar Perfil
-                </Text>
-            </TouchableOpacity>
-            <Modal key={1} buttonName="Cardápio" />
-            <TouchableOpacity
-                style={styles.submitButton}
-            >
-                <Text style={styles.submitButtonText} onPress={()=> goToOrder()}>Meus pedidos</Text>
+            <Text style={styles.submitButtonText}>Meus pedido:</Text>
+            {
+                orderList.map(oi => {
+                    return (
+                        <Text style={styles.submitButtonText} key={oi.id}>{oi.name} - R${orderTotal.toFixed(2).toString().replace('.', ',')}</Text>
+                    )
+                })
+            }
+            <Text style={styles.text}>Total do pedido : R${orderTotal.toFixed(2).toString().replace('.', ',')}</Text>
+            <TouchableOpacity onPress={() => goBackHome()}>
+                <Text style={styles.submitBack}>
+                    Voltar
+                    </Text>
             </TouchableOpacity>
         </View>
     );
 }
 
-export default Home;
+export default Order;

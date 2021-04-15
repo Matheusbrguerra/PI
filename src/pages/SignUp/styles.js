@@ -16,28 +16,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 15,
     },
-    submitButton: {
-        width: 300,
-        margin: 15,
-        height: 40,
-        borderColor: '#FFA500',
-        backgroundColor: '#FFA500',
-        borderWidth: 1,
-        borderRadius: 15,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    submitButtonText: {
-        color: '#FF0000',
-        fontWeight: 'bold'
-    },
     submitBack: {
         color: '#FF0000',
         fontWeight: 'bold'
-    },
-    imgStyle: {
-        width: 250,
-        height: 250,
     },
 })
 

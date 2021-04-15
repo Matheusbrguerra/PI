@@ -87,18 +87,16 @@ const SignUp = ({ navigation }) => {
                 APTO
             </Text>
             <TextInput style={styles.input} onChange={(e) => setApto(e.nativeEvent.text)} placeholder=" Insira número do seu APTO" />
-            <View style={{ flexDirection: 'row', padding: 10 }}>
-                <TouchableOpacity onPress={() => goBackLogin()}>
-                    <Text style={styles.submitBack}>
-                        {'<'}
+            <TouchableOpacity onPress={() => goBackLogin()}>
+                <Text style={styles.submitBack}>
+                    Voltar
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => submitSignUp()}>
-                    <Text style={styles.submitBack}>
-                        Cadastrar
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => submitSignUp()}>
+                <Text style={styles.submitBack}>
+                    Cadastrar
                     </Text>
-                </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
         </View>
     );
 }
